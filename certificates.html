@@ -4,13 +4,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Сертификаты и документы — ТОО Novaris LLP | Кабель ГОСТ Казахстан</title>
-<meta name="description" content="Сертификаты соответствия ГОСТ, ТР ТС, пожарной безопасности на кабельную продукцию АО КабельПром. ТОО Novaris LLP, Костанай."/>
+<meta name="description" content="Сертификаты соответствия ГОСТ, ТР ТС, пожарной безопасности на кабельную продукцию. ТОО Novaris LLP, официальный дилер АО КабельПром. Костанай."/>
 <meta name="robots" content="index, follow"/>
 <link rel="canonical" href="https://novaris.kz/certificates.html"/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://novaris.kz/certificates.html"/>
 <meta property="og:title" content="Сертификаты — Novaris LLP"/>
-<meta property="og:description" content="ГОСТ 31996-2012, ТР ТС 004/2011, ISO 9001, сертификаты пожарной безопасности на кабельную продукцию."/>
+<meta property="og:description" content="ГОСТ, ТР ТС 004/2011, сертификаты пожарной безопасности на кабельную продукцию."/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -46,13 +46,110 @@
 <style>
   body { background-color: #10131b; color: #e0e2ed; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; }
   .glass-panel { background: rgba(13,17,23,0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); }
-  .glow-hover:hover { box-shadow: 0 0 20px rgba(34,197,94,0.3); border-color: #4be277; transform: translateY(-4px); }
+
+  /* Certificate card */
+  .cert-card {
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    background: rgba(13,17,23,0.7);
+  }
+  .cert-card:hover {
+    border-color: #4be277;
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(34,197,94,0.25);
+  }
+  .cert-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  .cert-caption {
+    padding: 14px 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px;
+    line-height: 1.4;
+    color: #e0e2ed;
+  }
+  .cert-caption .validity {
+    font-size: 11px;
+    color: #4be277;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .cert-zoom-hint {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: rgba(0,0,0,0.6);
+    color: #4be277;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .cert-card:hover .cert-zoom-hint { opacity: 1; }
+
+  /* Lightbox */
+  #lb-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  #lb-overlay.open { display: flex; }
+  #lb-img {
+    max-width: min(90vw, 900px);
+    max-height: 88vh;
+    object-fit: contain;
+    box-shadow: 0 0 60px rgba(75,226,119,0.15);
+  }
+  #lb-caption {
+    position: fixed;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(16,19,27,0.9);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #e0e2ed;
+    text-align: center;
+    max-width: 600px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #lb-close {
+    position: fixed; top: 20px; right: 24px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(16,19,27,0.8);
+    color: #e0e2ed;
+    cursor: pointer;
+    font-size: 22px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  #lb-close:hover { border-color: #4be277; color: #4be277; }
+
   .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
   .reveal.active { opacity: 1; transform: translateY(0); }
-  .cert-card:hover .cert-icon { color: #4be277; }
 </style>
 </head>
 <body class="dark selection:bg-primary selection:text-on-primary">
+
+<!-- Lightbox -->
+<div id="lb-overlay" role="dialog" aria-modal="true">
+  <img id="lb-img" src="" alt=""/>
+  <div id="lb-caption"></div>
+  <button id="lb-close" aria-label="Закрыть">✕</button>
+</div>
 
 <!-- Nav -->
 <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-subtle shadow-sm h-20 flex justify-between items-center px-margin-desktop max-w-[1440px] mx-auto left-0 right-0">
@@ -90,114 +187,134 @@
 
   <div class="max-w-[1440px] mx-auto px-margin-desktop py-xl">
 
-    <!-- Certificate Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md mb-xl">
+    <!-- Certificate image grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md mb-xl reveal">
 
-      <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal cert-card flex flex-col">
-        <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle">
-          <span class="material-symbols-outlined text-on-surface-variant text-4xl cert-icon transition-colors">description</span>
-        </div>
-        <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-xs">ГОСТ</div>
-        <h3 class="font-headline-md text-headline-md mb-md">ГОСТ 31996-2012</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant flex-1 mb-md">
-          Кабели силовые с пластмассовой изоляцией на напряжение 0,66; 1 и 3 кВ. Охватывает марки ВВГ, ВВГнг, ВВГнг-LS, ВБбШв и их модификации. Обязательный ГОСТ для силовой кабельной продукции в РФ и странах ЕАЭС.
-        </p>
-        <div class="flex items-center justify-between border-t border-subtle pt-md">
-          <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Силовые кабели</span>
-          <a href="#" class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
-            <span class="material-symbols-outlined text-base">download</span>
-            Скачать PDF
-          </a>
+      <!-- 1 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-soot-apvvgnga-ls-apvbshvnga-ls-apvbshpgpvvgnga-ls-pvbshvnga-_.webp"
+           data-caption="АПВВГнг-LS, АПВБШВнг-LS — сертификат соответствия">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-soot-apvvgnga-ls-apvbshvnga-ls-apvbshpgpvvgnga-ls-pvbshvnga-_.webp"
+             alt="АПВВГнг-LS, АПВБШВнг-LS — сертификат соответствия" loading="lazy"/>
+        <div class="cert-caption">
+          АПВВГнг-LS, АПВБШВнг-LS<br>Сертификат соответствия
         </div>
       </div>
 
-      <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal cert-card flex flex-col">
-        <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle">
-          <span class="material-symbols-outlined text-on-surface-variant text-4xl cert-icon transition-colors">article</span>
-        </div>
-        <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-xs">ГОСТ</div>
-        <h3 class="font-headline-md text-headline-md mb-md">ГОСТ Р МЭК 60227</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant flex-1 mb-md">
-          Кабели и провода с поливинилхлоридной изоляцией на номинальное напряжение до 450/750 В. Включает монтажные провода, установочные кабели, гибкие шнуры. Соответствует международному стандарту IEC 60227.
-        </p>
-        <div class="flex items-center justify-between border-t border-subtle pt-md">
-          <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Провода ПВХ</span>
-          <a href="#" class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
-            <span class="material-symbols-outlined text-base">download</span>
-            Скачать PDF
-          </a>
+      <!-- 2 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-soot-kabel-silovoj-s-plastmassovoj-izolyacziej-baltik-kabel-do-26.12.2027-_.webp"
+           data-caption="Силовой кабель с пластмассовой изоляцией — БалтикКабель">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-soot-kabel-silovoj-s-plastmassovoj-izolyacziej-baltik-kabel-do-26.12.2027-_.webp"
+             alt="Силовой кабель — БалтикКабель" loading="lazy"/>
+        <div class="cert-caption">
+          Силовой кабель — БалтикКабель
+          <div class="validity">до 26.12.2027</div>
         </div>
       </div>
 
-      <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal cert-card flex flex-col">
-        <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle">
-          <span class="material-symbols-outlined text-on-surface-variant text-4xl cert-icon transition-colors">local_fire_department</span>
-        </div>
-        <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-xs">Пожарная безопасность</div>
-        <h3 class="font-headline-md text-headline-md mb-md">Сертификат пожарной безопасности</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant flex-1 mb-md">
-          Выдан органом по сертификации в области пожарной безопасности. Подтверждает соответствие кабельной продукции требованиям Федерального закона № 123-ФЗ «Технический регламент о требованиях пожарной безопасности» для кабелей нг, нг-LS и FRLS.
-        </p>
-        <div class="flex items-center justify-between border-t border-subtle pt-md">
-          <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">FRLS · нг-LS</span>
-          <a href="#" class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
-            <span class="material-symbols-outlined text-base">download</span>
-            Скачать PDF
-          </a>
+      <!-- 3 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-kabeli-silovye-s-med-zhilami-s-izolyaczij-iz-poliv-_.webp"
+           data-caption="Кабели силовые с медными жилами — сертификат соответствия">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-kabeli-silovye-s-med-zhilami-s-izolyaczij-iz-poliv-_.webp"
+             alt="Кабели силовые с медными жилами" loading="lazy"/>
+        <div class="cert-caption">
+          Кабели силовые с медными жилами<br>Сертификат соответствия
         </div>
       </div>
 
-      <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal cert-card flex flex-col">
-        <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle">
-          <span class="material-symbols-outlined text-on-surface-variant text-4xl cert-icon transition-colors">workspace_premium</span>
-        </div>
-        <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-xs">ISO</div>
-        <h3 class="font-headline-md text-headline-md mb-md">ISO 9001 — АО КабельПром</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant flex-1 mb-md">
-          Сертификат системы менеджмента качества АО КабельПром по стандарту ISO 9001:2015. Подтверждает, что производство кабельной продукции осуществляется в соответствии с международными требованиями к управлению качеством на всех этапах изготовления.
-        </p>
-        <div class="flex items-center justify-between border-t border-subtle pt-md">
-          <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Производитель</span>
-          <a href="#" class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
-            <span class="material-symbols-outlined text-base">download</span>
-            Скачать PDF
-          </a>
+      <!-- 4 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-kgekgetkgenkge-tkge-hl-kamkabel-do-13.06.2028-_.webp"
+           data-caption="КГЭ, КГЭт, КГЭн — КамКабель">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-kgekgetkgenkge-tkge-hl-kamkabel-do-13.06.2028-_.webp"
+             alt="КГЭ, КГЭт, КГЭн — КамКабель" loading="lazy"/>
+        <div class="cert-caption">
+          КГЭ, КГЭт, КГЭн — КамКабель
+          <div class="validity">до 13.06.2028</div>
         </div>
       </div>
 
-      <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal cert-card flex flex-col">
-        <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle">
-          <span class="material-symbols-outlined text-on-surface-variant text-4xl cert-icon transition-colors">fact_check</span>
-        </div>
-        <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-xs">ТР ТС</div>
-        <h3 class="font-headline-md text-headline-md mb-md">Декларация соответствия ТР ТС 004/2011</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant flex-1 mb-md">
-          Технический регламент Таможенного союза «О безопасности низковольтного оборудования». Обязательный документ для обращения кабельной продукции на рынках стран ЕАЭС: Казахстан, Россия, Беларусь, Армения, Кыргызстан.
-        </p>
-        <div class="flex items-center justify-between border-t border-subtle pt-md">
-          <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">ЕАЭС</span>
-          <a href="#" class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
-            <span class="material-symbols-outlined text-base">download</span>
-            Скачать PDF
-          </a>
+      <!-- 5 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-kgkgpkgnkgtkgntkgtp-kamkabel-do-12.05.2027-_.webp"
+           data-caption="КГ, КГп, КГн, КГт — КамКабель">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-kgkgpkgnkgtkgntkgtp-kamkabel-do-12.05.2027-_.webp"
+             alt="КГ, КГп, КГн, КГт — КамКабель" loading="lazy"/>
+        <div class="cert-caption">
+          КГ, КГп, КГн, КГт — КамКабель
+          <div class="validity">до 12.05.2027</div>
         </div>
       </div>
 
-      <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal cert-card flex flex-col">
-        <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle">
-          <span class="material-symbols-outlined text-on-surface-variant text-4xl cert-icon transition-colors">assignment_turned_in</span>
+      <!-- 6 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-konrtolnik-kabeks-do-25.07.2029-_.webp"
+           data-caption="Контрольный кабель — КаБЭКС">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-konrtolnik-kabeks-do-25.07.2029-_.webp"
+             alt="Контрольный кабель — КаБЭКС" loading="lazy"/>
+        <div class="cert-caption">
+          Контрольный кабель — КаБЭКС
+          <div class="validity">до 25.07.2029</div>
         </div>
-        <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-xs">Паспорт качества</div>
-        <h3 class="font-headline-md text-headline-md mb-md">Паспорт качества на партию</h3>
-        <p class="font-body-md text-body-md text-on-surface-variant flex-1 mb-md">
-          К каждой партии отгружаемой продукции прилагается заводской паспорт качества с указанием даты изготовления, номера партии, результатов заводских испытаний и подтверждения соответствия нормативам ГОСТ.
-        </p>
-        <div class="flex items-center justify-between border-t border-subtle pt-md">
-          <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Каждая партия</span>
-          <a href="contacts.html" class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
-            <span class="material-symbols-outlined text-base">mail</span>
-            Запросить
-          </a>
+      </div>
+
+      <!-- 8 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-silovoj-magna-do-24.10.2028-_2.webp"
+           data-caption="Силовой кабель — МагнаКабель">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-silovoj-magna-do-24.10.2028-_2.webp"
+             alt="Силовой кабель — МагнаКабель" loading="lazy"/>
+        <div class="cert-caption">
+          Силовой кабель — МагнаКабель
+          <div class="validity">до 24.10.2028</div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-sip-1234-kamkabel-do-26.10.2026-_.webp"
+           data-caption="СИП 1,2,3,4 — КамКабель">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-sip-1234-kamkabel-do-26.10.2026-_.webp"
+             alt="СИП 1,2,3,4 — КамКабель" loading="lazy"/>
+        <div class="cert-caption">
+          СИП 1,2,3,4 — КамКабель
+          <div class="validity">до 26.10.2026</div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-sip-1sip-2sip-3sip-4-promavtomatika-pk-do-02.10.2026-_.webp"
+           data-caption="СИП-1, СИП-2, СИП-3, СИП-4 — ПромАвтоматика">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-sip-1sip-2sip-3sip-4-promavtomatika-pk-do-02.10.2026-_.webp"
+             alt="СИП-1,2,3,4 — ПромАвтоматика" loading="lazy"/>
+        <div class="cert-caption">
+          СИП-1, СИП-2, СИП-3, СИП-4 — ПромАвтоматика
+          <div class="validity">до 02.10.2026</div>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="cert-card relative"
+           data-src="assets/certs/sert-sootv-sip-2sip-4-promavtomatika-pk-do-12.02.2029-_.webp"
+           data-caption="СИП-2, СИП-4 — ПромАвтоматика">
+        <div class="cert-zoom-hint"><span class="material-symbols-outlined text-sm">zoom_in</span></div>
+        <img src="assets/certs/sert-sootv-sip-2sip-4-promavtomatika-pk-do-12.02.2029-_.webp"
+             alt="СИП-2, СИП-4 — ПромАвтоматика" loading="lazy"/>
+        <div class="cert-caption">
+          СИП-2, СИП-4 — ПромАвтоматика
+          <div class="validity">до 12.02.2029</div>
         </div>
       </div>
 
@@ -210,7 +327,7 @@
           <span class="material-symbols-outlined text-primary text-3xl flex-shrink-0">info</span>
           <div>
             <h3 class="font-headline-md text-headline-md mb-xs">Оригинальность</h3>
-            <p class="font-body-md text-body-md text-on-surface-variant">Вся продукция поставляется напрямую с завода-изготовителя АО КабельПром. Исключён риск контрафакта.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant">Вся продукция поставляется напрямую с заводов-изготовителей. Исключён риск контрафакта.</p>
           </div>
         </div>
         <div class="flex gap-md items-start">
@@ -239,11 +356,6 @@
     <div>
       <div class="font-headline-md text-headline-md font-bold text-primary mb-md uppercase tracking-tight">ТОО «Novaris LLP»</div>
       <p class="font-body-md text-body-md text-on-surface-variant mb-md">Профессиональные решения в области поставок кабельно-проводниковой продукции по Казахстану и СНГ.</p>
-      <div class="flex gap-sm">
-        <a class="w-10 h-10 border border-subtle flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
-        <a class="w-10 h-10 border border-subtle flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all" href="#"><span class="material-symbols-outlined">forum</span></a>
-        <a class="w-10 h-10 border border-subtle flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all" href="#"><span class="material-symbols-outlined">share</span></a>
-      </div>
     </div>
     <div class="grid grid-cols-2 gap-md">
       <div class="flex flex-col gap-sm">
@@ -251,14 +363,11 @@
         <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="catalog.html">Каталог</a>
         <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="certificates.html">Сертификаты</a>
         <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="delivery.html">Доставка</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="contacts.html">Прайс-лист</a>
       </div>
       <div class="flex flex-col gap-sm">
         <span class="font-label-sm text-label-sm uppercase text-primary mb-xs">Компания</span>
         <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="about.html">О нас</a>
         <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="contacts.html">Контакты</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Партнеры</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Филиалы</a>
       </div>
     </div>
     <div>
@@ -271,18 +380,45 @@
   <div class="max-w-[1440px] mx-auto px-margin-desktop mt-xl pt-md border-t border-subtle flex flex-col md:flex-row justify-between text-label-sm text-on-surface-variant uppercase tracking-widest opacity-60">
     <span>© 2026 ТОО Novaris LLP · БИН 260540011719</span>
     <div class="flex gap-lg mt-md md:mt-0">
-      <a class="hover:text-primary transition-colors" href="#">Юридическая информация</a>
       <a class="hover:text-primary transition-colors" href="#">Политика конфиденциальности</a>
     </div>
   </div>
 </footer>
 
 <script>
-  const observer = new IntersectionObserver(
+  // Reveal on scroll
+  const obs = new IntersectionObserver(
     (entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add('active')),
-    { threshold: 0.1 }
+    { threshold: 0.05 }
   );
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Lightbox
+  const overlay  = document.getElementById('lb-overlay');
+  const lbImg    = document.getElementById('lb-img');
+  const lbCaption= document.getElementById('lb-caption');
+  const lbClose  = document.getElementById('lb-close');
+
+  function openLb(src, caption) {
+    lbImg.src = src;
+    lbImg.alt = caption;
+    lbCaption.textContent = caption;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  document.querySelectorAll('.cert-card').forEach(card => {
+    card.addEventListener('click', () => openLb(card.dataset.src, card.dataset.caption));
+  });
+
+  lbClose.addEventListener('click', closeLb);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
 </script>
 </body>
 </html>

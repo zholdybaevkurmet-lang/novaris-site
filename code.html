@@ -359,6 +359,16 @@
 </div>
 </div>
 </section>
+<!-- Suppliers Block -->
+<section class="max-w-[1440px] mx-auto px-margin-desktop my-xl reveal">
+<div class="text-center mb-lg">
+<h2 class="font-display-lg text-display-lg mb-sm">Наши поставщики</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Работаем с ведущими российскими производителями кабельной продукции</p>
+</div>
+<div class="border border-subtle overflow-hidden">
+<img src="assets/suppliers.png" alt="Поставщики: Magna Cable, ЭМ-Кабель, Угличкабель, КамКабель, Цветлит, Kabex Group, Саранскабель, Рыбинсккабель, Кирскабель, Ункомтех" class="w-full block" style="background:#1c2027"/>
+</div>
+</section>
 <!-- Trust Block -->
 <section class="bg-surface-container-low py-xl">
 <div class="max-w-[1440px] mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-lg items-center">
@@ -525,113 +535,210 @@
     const ctx = canvas.getContext('2d');
     const container = document.getElementById('map-container');
 
+    let routes = [];
+
     function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = container.offsetWidth || window.innerWidth;
+        canvas.height = container.offsetHeight || window.innerHeight;
+        routes.forEach(r => r.arc = null);
     }
-
     window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
 
-    const cities = [
-        { x: 0.58, y: 0.38, name: 'Astana' },
-        { x: 0.78, y: 0.62, name: 'Almaty' },
-        { x: 0.26, y: 0.45, name: 'Aktobe' },
-        { x: 0.51, y: 0.68, name: 'Shymkent' },
-        { x: 0.12, y: 0.40, name: 'Uralsk' },
-        { x: 0.72, y: 0.35, name: 'Pavlodar' },
-        { x: 0.65, y: 0.48, name: 'Karaganda' },
-        { x: 0.14, y: 0.64, name: 'Aktau' }
+    const CITIES = [
+        { x: 0.58, y: 0.38, name: 'Астана',    hub: true  },
+        { x: 0.35, y: 0.28, name: 'Костанай',  hub: true  },
+        { x: 0.78, y: 0.62, name: 'Алматы',    hub: true  },
+        { x: 0.26, y: 0.45, name: 'Актобе',    hub: false },
+        { x: 0.51, y: 0.68, name: 'Шымкент',   hub: false },
+        { x: 0.12, y: 0.40, name: 'Уральск',   hub: false },
+        { x: 0.72, y: 0.35, name: 'Павлодар',  hub: false },
+        { x: 0.65, y: 0.48, name: 'Қарағанды', hub: false },
+        { x: 0.14, y: 0.64, name: 'Ақтау',     hub: false },
     ];
 
-    class LogisticsPulse {
-        constructor(start, end, delay) {
-            this.start = start;
-            this.end = end;
-            this.delay = delay;
-            this.progress = -delay;
-            this.speed = 0.003 + Math.random() * 0.004;
-            this.size = 1.5 + Math.random() * 2;
-        }
-
-        getQuadraticBezierXY(t, p0, p1, p2) {
-            const x = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x;
-            const y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y;
-            return { x, y };
-        }
-
-        update() {
-            this.progress += this.speed;
-            if (this.progress > 1) {
-                this.progress = 0;
-            }
-        }
-
-        draw(ctx, w, h) {
-            if (this.progress < 0) return;
-
-            const p0 = { x: this.start.x * w, y: this.start.y * h };
-            const p2 = { x: this.end.x * w, y: this.end.y * h };
-            const cp = {
-                x: ((p0.x + p2.x) / 2),
-                y: ((p0.y + p2.y) / 2) - 100
-            };
-
-            const pos = this.getQuadraticBezierXY(this.progress, p0, cp, p2);
-
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = '#4be277';
-            ctx.shadowBlur = 12;
-            ctx.shadowColor = '#4be277';
-            ctx.fill();
-            ctx.restore();
-        }
+    function quadBez(t, p0, cp, p2) {
+        const u = 1 - t;
+        return { x: u*u*p0.x + 2*u*t*cp.x + t*t*p2.x,
+                 y: u*u*p0.y + 2*u*t*cp.y + t*t*p2.y };
     }
 
-    const pulses = [];
-    const astana = cities[0];
-    // Radiate lines from Astana to all other cities
-    cities.slice(1).forEach(city => {
-        pulses.push(new LogisticsPulse(astana, city, Math.random() * 2));
-        pulses.push(new LogisticsPulse(astana, city, Math.random() * 2 + 1));
-    });
+    function buildArcTable(p0, cp, p2) {
+        const N = 80;
+        const table = [{ t: 0, len: 0 }];
+        let len = 0, prev = p0;
+        for (let i = 1; i <= N; i++) {
+            const t = i / N;
+            const cur = quadBez(t, p0, cp, p2);
+            len += Math.hypot(cur.x - prev.x, cur.y - prev.y);
+            table.push({ t, len });
+            prev = cur;
+        }
+        return { table, totalLen: len };
+    }
 
-    let lineDashOffset = 0;
-    function animateMap() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function getPointAtArcLen(target, arc, p0, cp, p2) {
+        if (target <= 0) return quadBez(0, p0, cp, p2);
+        if (target >= arc.totalLen) return quadBez(1, p0, cp, p2);
+        for (let i = 1; i < arc.table.length; i++) {
+            if (arc.table[i].len >= target) {
+                const seg = arc.table[i].len - arc.table[i-1].len;
+                const f = seg > 0 ? (target - arc.table[i-1].len) / seg : 0;
+                const t = arc.table[i-1].t + f * (arc.table[i].t - arc.table[i-1].t);
+                return quadBez(t, p0, cp, p2);
+            }
+        }
+        return quadBez(1, p0, cp, p2);
+    }
 
-        // Base dashed lines representing routes
-        ctx.strokeStyle = 'rgba(74, 225, 118, 0.1)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([4, 8]);
-        ctx.lineDashOffset = -lineDashOffset;
+    const FWD_DUR = 3.0, PAUSE_DUR = 0.5;
 
-        cities.slice(1).forEach(city => {
-            const p0 = { x: astana.x * canvas.width, y: astana.y * canvas.height };
-            const p2 = { x: city.x * canvas.width, y: city.y * canvas.height };
-            const cp = {
-                x: ((p0.x + p2.x) / 2),
-                y: ((p0.y + p2.y) / 2) - 100
-            };
+    class Route {
+        constructor(from, to, delay) {
+            this.from = from; this.to = to;
+            this.elapsed = -delay;
+            this.phase = 'forward'; this.phaseTime = 0;
+            this.arc = null;
+        }
 
+        buildArc() {
+            const w = canvas.width, h = canvas.height;
+            this.p0 = { x: this.from.x * w, y: this.from.y * h };
+            this.p2 = { x: this.to.x * w,   y: this.to.y * h   };
+            this.cp = { x: (this.p0.x + this.p2.x) / 2,
+                        y: (this.p0.y + this.p2.y) / 2 - 80 };
+            this.arc = buildArcTable(this.p0, this.cp, this.p2);
+        }
+
+        update(dt) {
+            this.elapsed += dt;
+            if (this.elapsed < 0) return;
+            this.phaseTime += dt;
+            if      (this.phase === 'forward'     && this.phaseTime >= FWD_DUR)   { this.phase = 'pause_end';   this.phaseTime = 0; }
+            else if (this.phase === 'pause_end'   && this.phaseTime >= PAUSE_DUR) { this.phase = 'backward';    this.phaseTime = 0; }
+            else if (this.phase === 'backward'    && this.phaseTime >= FWD_DUR)   { this.phase = 'pause_start'; this.phaseTime = 0; }
+            else if (this.phase === 'pause_start' && this.phaseTime >= PAUSE_DUR) { this.phase = 'forward';     this.phaseTime = 0; }
+        }
+
+        draw(ctx) {
+            if (!this.arc) this.buildArc();
+            const { p0, p2, cp, arc } = this;
+            const L = arc.totalLen;
+
+            let frac = 0, forward = true;
+            if (this.elapsed >= 0) {
+                const t = Math.min(this.phaseTime / FWD_DUR, 1);
+                if      (this.phase === 'forward')     { frac = t;   forward = true;  }
+                else if (this.phase === 'pause_end')   { frac = 1;   forward = true;  }
+                else if (this.phase === 'backward')    { frac = t;   forward = false; }
+                else                                    { frac = 0;   forward = false; }
+            }
+
+            ctx.save();
+
+            // Static background line
+            ctx.strokeStyle = 'rgba(74,222,128,0.08)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([]);
+            ctx.shadowBlur = 0;
             ctx.beginPath();
             ctx.moveTo(p0.x, p0.y);
             ctx.quadraticCurveTo(cp.x, cp.y, p2.x, p2.y);
             ctx.stroke();
-        });
 
-        // Logistics Pulses
-        pulses.forEach(pulse => {
-            pulse.update();
-            pulse.draw(ctx, canvas.width, canvas.height);
-        });
+            if (frac > 0) {
+                // Animated line: dash=L gap=L, offset goes L→0 as frac goes 0→1
+                const [from, to] = forward ? [p0, p2] : [p2, p0];
+                ctx.strokeStyle = 'rgba(74,222,128,0.85)';
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 0;
+                ctx.setLineDash([L, L]);
+                ctx.lineDashOffset = L * (1 - frac);
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.quadraticCurveTo(cp.x, cp.y, to.x, to.y);
+                ctx.stroke();
 
-        lineDashOffset += 0.2;
+                // Tip dot at leading edge
+                // forward: tip is frac*L from p0; backward: frac*L from p2 = (1-frac)*L from p0
+                const arcLen = forward ? frac * L : (1 - frac) * L;
+                const tip = getPointAtArcLen(arcLen, arc, p0, cp, p2);
+                ctx.setLineDash([]);
+                ctx.lineDashOffset = 0;
+                ctx.beginPath();
+                ctx.arc(tip.x, tip.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#4ade80';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#4ade80';
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+    }
+
+    // Astana→all cities + Kostanay→Astana
+    const ASTANA   = CITIES[0];
+    const KOSTANAY = CITIES[1];
+    const routePairs = [
+        [ASTANA,   CITIES[2]],
+        [ASTANA,   CITIES[3]],
+        [ASTANA,   CITIES[4]],
+        [ASTANA,   CITIES[5]],
+        [ASTANA,   CITIES[6]],
+        [ASTANA,   CITIES[7]],
+        [ASTANA,   CITIES[8]],
+        [KOSTANAY, ASTANA   ],
+    ];
+    routes = routePairs.map(([a, b], i) => new Route(a, b, i * 0.5));
+
+    resizeCanvas();
+
+    function drawCities(now) {
+        const w = canvas.width, h = canvas.height;
+        ctx.save();
+        ctx.font = '11px "Space Grotesk", sans-serif';
+        ctx.textAlign = 'center';
+        CITIES.forEach(city => {
+            const cx = city.x * w, cy = city.y * h;
+            const pulse = 0.6 + 0.4 * Math.sin(now * 0.0022 + city.x * 9.7);
+            const r = city.hub ? 6 : 3.5;
+
+            // Glow ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, r + 4 * pulse, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(74,222,128,${0.12 * pulse})`;
+            ctx.shadowBlur = 0;
+            ctx.fill();
+
+            // Core dot
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = '#4ade80';
+            ctx.shadowBlur = city.hub ? 12 : 6;
+            ctx.shadowColor = '#4ade80';
+            ctx.fill();
+
+            // Label
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = 'rgba(255,255,255,0.9)';
+            ctx.fillText(city.name, cx, cy + r + 13);
+        });
+        ctx.restore();
+    }
+
+    let lastTime = null;
+    function animateMap(timestamp) {
+        if (!lastTime) lastTime = timestamp;
+        const dt = Math.min((timestamp - lastTime) / 1000, 0.1);
+        lastTime = timestamp;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        routes.forEach(r => { r.update(dt); r.draw(ctx); });
+        drawCities(timestamp);
+
         requestAnimationFrame(animateMap);
     }
 
-    animateMap();
+    requestAnimationFrame(animateMap);
 </script>
 </body></html>
