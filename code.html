@@ -214,9 +214,7 @@
         }
 
         .hero-bg-overlay {
-            background: linear-gradient(rgba(16, 19, 27, 0.9), rgba(16, 19, 27, 0.9)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwXhPsjZaT99IvuUyN5k0Xj4Ep_P5iyBq5lL7yA_tOGPElhQQqkWhPii4OvtyNfrBAlbN4trRcFa3xQCcIVOVu6bqDv4ciLBjYa0dK6vlCeknHfgqa9JpglAgd8fDDCZp1l-0yTUU0iZ6CNjkqcWHOsNol7B6crk56nXNGiKsywJnRd1tq3QVyYZQJ1pKyXnazM7l6362APoY5xm3T3ihwVDmk6NfNI1AdW6D0XfPLw5Sb49CTbZb1_7Ruv_ZXhuh_xXL2BMXvnBk');
-            background-size: cover;
-            background-position: center;
+            background: #06090f;
         }
     </style>
 </head>
@@ -249,7 +247,7 @@
 <!-- Logistics Map Overlay -->
 <div class="absolute inset-0 z-0 opacity-40">
 <div class="w-full h-full" id="map-container">
-<canvas class="absolute inset-0" id="map-lines"></canvas>
+<canvas class="absolute inset-0" id="map-lines" style="pointer-events:none;z-index:2;"></canvas>
 <!-- City Pulse Markers -->
 <div class="map-pulse" style="top: 38%; left: 58%;"></div> <!-- Astana -->
 <div class="map-pulse" style="top: 62%; left: 78%;"></div> <!-- Almaty -->
@@ -274,12 +272,12 @@
                     Прямые поставки промышленного кабеля с заводов-изготовителей. Гарантия качества, соответствие ГОСТ и оперативная логистика в любой регион.
                 </p>
 <div class="flex flex-wrap gap-md mb-xl">
-<button class="bg-primary text-on-primary px-lg py-4 font-bold uppercase tracking-wider hover:glow-green transition-all duration-300">
+<a href="catalog/index.html" class="bg-primary text-on-primary px-lg py-4 font-bold uppercase tracking-wider hover:glow-green transition-all duration-300">
                         Перейти в каталог
-                    </button>
-<button class="border border-primary text-primary px-lg py-4 font-bold uppercase tracking-wider hover:bg-primary/10 transition-all duration-300">
+                    </a>
+<a href="contacts.html" class="border border-primary text-primary px-lg py-4 font-bold uppercase tracking-wider hover:bg-primary/10 transition-all duration-300">
                         Запросить КП
-                    </button>
+                    </a>
 </div>
 <!-- Hero Stats -->
 <div class="grid grid-cols-3 gap-md border-t border-subtle pt-lg">
@@ -315,7 +313,7 @@
 </div>
 <h3 class="font-headline-md text-headline-md mb-sm">Силовые</h3>
 <p class="font-body-md text-body-md text-on-surface-variant mb-md">Для передачи и распределения электроэнергии в стационарных установках.</p>
-<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="catalog/index.html">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
 </div>
 <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal group">
 <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle group-hover:border-primary transition-colors">
@@ -323,7 +321,7 @@
 </div>
 <h3 class="font-headline-md text-headline-md mb-sm">Контрольные</h3>
 <p class="font-body-md text-body-md text-on-surface-variant mb-md">Для неподвижного присоединения к электрическим приборам и аппаратам.</p>
-<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="catalog/index.html">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
 </div>
 <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal group">
 <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle group-hover:border-primary transition-colors">
@@ -331,7 +329,7 @@
 </div>
 <h3 class="font-headline-md text-headline-md mb-sm">Монтажные</h3>
 <p class="font-body-md text-body-md text-on-surface-variant mb-md">Для межприборного монтажа электрических устройств и оборудования.</p>
-<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="catalog/index.html">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
 </div>
 <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal group">
 <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle group-hover:border-primary transition-colors">
@@ -339,7 +337,7 @@
 </div>
 <h3 class="font-headline-md text-headline-md mb-sm">Гибкие</h3>
 <p class="font-body-md text-body-md text-on-surface-variant mb-md">Для подключения передвижных механизмов в сложных условиях эксплуатации.</p>
-<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="catalog/index.html">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
 </div>
 <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal group">
 <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle group-hover:border-primary transition-colors">
@@ -347,7 +345,7 @@
 </div>
 <h3 class="font-headline-md text-headline-md mb-sm">Огнестойкие</h3>
 <p class="font-body-md text-body-md text-on-surface-variant mb-md">Сохраняют работоспособность в условиях пожара для систем безопасности.</p>
-<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+<a class="text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all" href="catalog/index.html">Подробнее <span class="material-symbols-outlined text-sm">chevron_right</span></a>
 </div>
 <div class="glass-panel p-lg glow-hover transition-all duration-300 reveal group">
 <div class="bg-surface-container-highest w-16 h-16 flex items-center justify-center mb-md border border-subtle group-hover:border-primary transition-colors">
@@ -535,6 +533,9 @@
     const ctx = canvas.getContext('2d');
     const container = document.getElementById('map-container');
 
+    const mapImg = new Image();
+    mapImg.src = 'assets/map-bg.png';
+
     let routes = [];
 
     function resizeCanvas() {
@@ -545,15 +546,21 @@
     window.addEventListener('resize', resizeCanvas);
 
     const CITIES = [
-        { x: 0.58, y: 0.38, name: 'Астана',    hub: true  },
-        { x: 0.35, y: 0.28, name: 'Костанай',  hub: true  },
-        { x: 0.78, y: 0.62, name: 'Алматы',    hub: true  },
-        { x: 0.26, y: 0.45, name: 'Актобе',    hub: false },
-        { x: 0.51, y: 0.68, name: 'Шымкент',   hub: false },
-        { x: 0.12, y: 0.40, name: 'Уральск',   hub: false },
-        { x: 0.72, y: 0.35, name: 'Павлодар',  hub: false },
-        { x: 0.65, y: 0.48, name: 'Қарағанды', hub: false },
-        { x: 0.14, y: 0.64, name: 'Ақтау',     hub: false },
+        { name: 'Астана',           x: 0.581, y: 0.387, hub: true  },
+        { name: 'Алматы',           x: 0.782, y: 0.607, hub: true  },
+        { name: 'Костанай',         x: 0.451, y: 0.340, hub: true  },
+        { name: 'Актобе',           x: 0.281, y: 0.451, hub: false },
+        { name: 'Шымкент',          x: 0.497, y: 0.672, hub: false },
+        { name: 'Атырау',           x: 0.144, y: 0.539, hub: false },
+        { name: 'Актау',            x: 0.144, y: 0.628, hub: false },
+        { name: 'Уральск',          x: 0.117, y: 0.408, hub: false },
+        { name: 'Петропавловск',    x: 0.548, y: 0.296, hub: false },
+        { name: 'Павлодар',         x: 0.725, y: 0.354, hub: false },
+        { name: 'Усть-Каменогорск', x: 0.907, y: 0.441, hub: false },
+        { name: 'Семей',            x: 0.786, y: 0.505, hub: false },
+        { name: 'Қарағанды',        x: 0.641, y: 0.457, hub: false },
+        { name: 'Қызылорда',        x: 0.419, y: 0.567, hub: false },
+        { name: 'Тараз',            x: 0.607, y: 0.629, hub: false },
     ];
 
     function quadBez(t, p0, cp, p2) {
@@ -678,17 +685,11 @@
 
     // Astana→all cities + Kostanay→Astana
     const ASTANA   = CITIES[0];
-    const KOSTANAY = CITIES[1];
-    const routePairs = [
-        [ASTANA,   CITIES[2]],
-        [ASTANA,   CITIES[3]],
-        [ASTANA,   CITIES[4]],
-        [ASTANA,   CITIES[5]],
-        [ASTANA,   CITIES[6]],
-        [ASTANA,   CITIES[7]],
-        [ASTANA,   CITIES[8]],
-        [KOSTANAY, ASTANA   ],
-    ];
+    const KOSTANAY = CITIES[2];
+    const routePairs = CITIES
+        .filter(c => c !== ASTANA)
+        .map(c => [ASTANA, c])
+        .concat([[KOSTANAY, ASTANA]]);
     routes = routePairs.map(([a, b], i) => new Route(a, b, i * 0.5));
 
     resizeCanvas();
@@ -718,10 +719,6 @@
             ctx.shadowColor = '#4ade80';
             ctx.fill();
 
-            // Label
-            ctx.shadowBlur = 0;
-            ctx.fillStyle = 'rgba(255,255,255,0.9)';
-            ctx.fillText(city.name, cx, cy + r + 13);
         });
         ctx.restore();
     }
@@ -733,6 +730,9 @@
         lastTime = timestamp;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (mapImg.complete) ctx.drawImage(mapImg, 0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(6,9,16,0.45)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         routes.forEach(r => { r.update(dt); r.draw(ctx); });
         drawCities(timestamp);
 
