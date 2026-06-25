@@ -216,6 +216,174 @@
         .hero-bg-overlay {
             background: #06090f;
         }
+
+
+        /* ===== АГРЕССИВНАЯ МОБИЛЬНАЯ ОПТИМИЗАЦИЯ v2 ===== */
+        @media screen and (max-width: 768px) {
+            html, body {
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+            }
+
+            /* Заголовки - все виды */
+            h1, h2, h3,
+            h1.font-display-lg, h1.text-display-lg,
+            h2.font-display-lg, h2.text-display-lg,
+            h3.font-display-lg, h3.text-display-lg,
+            .font-display-lg, .text-display-lg,
+            [class*="text-display"], [class*="font-display"] {
+                font-size: 24px !important;
+                line-height: 1.25 !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                hyphens: auto !important;
+                letter-spacing: -0.01em !important;
+            }
+
+            h1, h1.text-display-lg { font-size: 28px !important; }
+            h2, h2.text-display-lg { font-size: 22px !important; }
+            h3 { font-size: 17px !important; }
+
+            /* Hero stats - счётчики */
+            .grid.grid-cols-3 > div .text-display-lg,
+            .grid.grid-cols-3 > div .counter {
+                font-size: 22px !important;
+                line-height: 1.1 !important;
+            }
+
+            /* Навигация */
+            nav {
+                padding: 0 12px !important;
+                height: 56px !important;
+            }
+            nav .text-headline-md { font-size: 16px !important; }
+
+            /* Скрыть горизонтальное меню на мобилке */
+            nav .hidden.md\:flex { display: none !important; }
+            .hidden.lg\:block { display: none !important; }
+
+            /* Отступы */
+            .px-margin-desktop,
+            [class*="px-margin"] {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+
+            /* Секции */
+            section {
+                padding-top: 24px !important;
+                padding-bottom: 24px !important;
+            }
+
+            /* Hero */
+            .min-h-\[90vh\] {
+                min-height: auto !important;
+                padding-top: 80px !important;
+                padding-bottom: 30px !important;
+            }
+
+            /* КНОПКИ - 100% ширина, текст не выходит */
+            button,
+            a.bg-primary,
+            a.border-primary,
+            a[class*="bg-primary"],
+            a[class*="border-primary"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 14px 10px !important;
+                font-size: 13px !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+                box-sizing: border-box !important;
+                letter-spacing: 0.5px !important;
+                display: block !important;
+                text-align: center !important;
+            }
+
+            /* Контейнер кнопок */
+            .flex.flex-wrap.gap-md {
+                flex-direction: column !important;
+                gap: 10px !important;
+                width: 100% !important;
+            }
+
+            /* Текст */
+            .font-body-lg, .text-body-lg, p.text-body-lg {
+                font-size: 15px !important;
+                line-height: 1.5 !important;
+            }
+            .font-body-md, .text-body-md {
+                font-size: 14px !important;
+                line-height: 1.5 !important;
+            }
+
+            /* Сетки - всё в 1 колонку кроме hero stats */
+            .grid.md\:grid-cols-2,
+            .grid.lg\:grid-cols-2,
+            .grid.lg\:grid-cols-3,
+            .grid.md\:grid-cols-3,
+            .grid.grid-cols-1.md\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            /* Стрит карточки 3 в ряд - оставляем */
+            .grid.grid-cols-3.gap-md {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 6px !important;
+            }
+
+            /* Glass panels */
+            .glass-panel { padding: 14px !important; }
+            section .glass-panel.p-xl { padding: 16px !important; }
+
+            /* Контейнеры */
+            .max-w-\[1440px\], .max-w-xl, .max-w-4xl, .max-w-3xl {
+                max-width: 100% !important;
+            }
+
+            /* Спейсинг */
+            .gap-xl { gap: 20px !important; }
+            .gap-lg { gap: 14px !important; }
+
+            .mb-xl, .my-xl { margin-bottom: 24px !important; margin-top: 24px !important; }
+            .mb-lg, .my-lg { margin-bottom: 14px !important; }
+
+            .py-xl { padding-top: 24px !important; padding-bottom: 24px !important; }
+            .py-lg { padding-top: 14px !important; padding-bottom: 14px !important; }
+
+            /* Формы */
+            form {
+                grid-template-columns: 1fr !important;
+                padding: 0 !important;
+            }
+
+            input, textarea, select {
+                width: 100% !important;
+                max-width: 100% !important;
+                font-size: 16px !important;
+                padding: 12px !important;
+                box-sizing: border-box !important;
+            }
+
+            form button[type="submit"] {
+                padding: 14px 8px !important;
+                font-size: 12px !important;
+                letter-spacing: 0.3px !important;
+                white-space: normal !important;
+                line-height: 1.3 !important;
+            }
+
+            /* Footer */
+            footer .grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            /* Карта */
+            #map-container { aspect-ratio: 1.2 / 1 !important; }
+        }
+    
     </style>
 </head>
 <body class="dark selection:bg-primary selection:text-on-primary">
