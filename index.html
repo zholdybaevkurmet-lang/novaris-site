@@ -217,47 +217,56 @@
             background: #06090f;
         }
 
-        /* Мобильная оптимизация */
-        @media (max-width: 768px) {
-            body {
-                padding: 0;
-                overflow-x: hidden;
+
+        /* ===== АГРЕССИВНАЯ МОБИЛЬНАЯ ОПТИМИЗАЦИЯ v2 ===== */
+        @media screen and (max-width: 768px) {
+            html, body {
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+            }
+
+            /* Заголовки - все виды */
+            h1, h2, h3,
+            h1.font-display-lg, h1.text-display-lg,
+            h2.font-display-lg, h2.text-display-lg,
+            h3.font-display-lg, h3.text-display-lg,
+            .font-display-lg, .text-display-lg,
+            [class*="text-display"], [class*="font-display"] {
+                font-size: 24px !important;
+                line-height: 1.25 !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                hyphens: auto !important;
+                letter-spacing: -0.01em !important;
+            }
+
+            h1, h1.text-display-lg { font-size: 28px !important; }
+            h2, h2.text-display-lg { font-size: 22px !important; }
+            h3 { font-size: 17px !important; }
+
+            /* Hero stats - счётчики */
+            .grid.grid-cols-3 > div .text-display-lg,
+            .grid.grid-cols-3 > div .counter {
+                font-size: 22px !important;
+                line-height: 1.1 !important;
             }
 
             /* Навигация */
             nav {
-                padding: 0 16px !important;
-                height: 60px !important;
-                max-width: 100% !important;
+                padding: 0 12px !important;
+                height: 56px !important;
             }
+            nav .text-headline-md { font-size: 16px !important; }
 
-            nav .text-headline-md {
-                font-size: 18px !important;
-            }
+            /* Скрыть горизонтальное меню на мобилке */
+            nav .hidden.md\:flex { display: none !important; }
+            .hidden.lg\:block { display: none !important; }
 
-            /* Главные заголовки */
-            .font-display-lg,
-            h1 {
-                font-size: 28px !important;
-                line-height: 1.2 !important;
-                word-wrap: break-word;
-                word-break: break-word;
-            }
-
-            h2 {
-                font-size: 24px !important;
-                line-height: 1.3 !important;
-            }
-
-            h3 {
-                font-size: 18px !important;
-            }
-
-            /* Отступы страницы */
+            /* Отступы */
             .px-margin-desktop,
             [class*="px-margin"] {
-                padding-left: 16px !important;
-                padding-right: 16px !important;
+                padding-left: 12px !important;
+                padding-right: 12px !important;
             }
 
             /* Секции */
@@ -266,139 +275,115 @@
                 padding-bottom: 24px !important;
             }
 
-            /* Hero section */
+            /* Hero */
             .min-h-\[90vh\] {
-                min-height: 70vh !important;
+                min-height: auto !important;
                 padding-top: 80px !important;
+                padding-bottom: 30px !important;
             }
 
-            /* Кнопки */
-            button, 
+            /* КНОПКИ - 100% ширина, текст не выходит */
+            button,
+            a.bg-primary,
+            a.border-primary,
             a[class*="bg-primary"],
             a[class*="border-primary"] {
                 width: 100% !important;
-                padding: 12px 16px !important;
-                font-size: 14px !important;
-                margin-bottom: 8px;
+                max-width: 100% !important;
+                padding: 14px 10px !important;
+                font-size: 13px !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+                box-sizing: border-box !important;
+                letter-spacing: 0.5px !important;
+                display: block !important;
+                text-align: center !important;
             }
 
-            /* Flex контейнеры с кнопками */
+            /* Контейнер кнопок */
             .flex.flex-wrap.gap-md {
                 flex-direction: column !important;
-                gap: 12px !important;
+                gap: 10px !important;
+                width: 100% !important;
             }
 
             /* Текст */
-            .font-body-lg {
-                font-size: 16px !important;
+            .font-body-lg, .text-body-lg, p.text-body-lg {
+                font-size: 15px !important;
+                line-height: 1.5 !important;
             }
-
-            .font-body-md {
+            .font-body-md, .text-body-md {
                 font-size: 14px !important;
+                line-height: 1.5 !important;
             }
 
-            /* Сетки */
-            .grid.grid-cols-3 {
+            /* Сетки - всё в 1 колонку кроме hero stats */
+            .grid.md\:grid-cols-2,
+            .grid.lg\:grid-cols-2,
+            .grid.lg\:grid-cols-3,
+            .grid.md\:grid-cols-3,
+            .grid.grid-cols-1.md\:grid-cols-2 {
                 grid-template-columns: 1fr !important;
                 gap: 12px !important;
             }
 
-            .grid.grid-cols-2,
-            .grid.grid-cols-1.md\:grid-cols-2 {
-                grid-template-columns: 1fr !important;
+            /* Стрит карточки 3 в ряд - оставляем */
+            .grid.grid-cols-3.gap-md {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 6px !important;
             }
 
-            /* Карточки */
-            .glass-panel {
-                padding: 16px !important;
-            }
+            /* Glass panels */
+            .glass-panel { padding: 14px !important; }
+            section .glass-panel.p-xl { padding: 16px !important; }
 
-            /* Карта */
-            #map-container {
-                aspect-ratio: 1 !important;
-            }
-
-            /* Максимальная ширина контейнеров */
-            .max-w-\[1440px\],
-            .max-w-xl {
+            /* Контейнеры */
+            .max-w-\[1440px\], .max-w-xl, .max-w-4xl, .max-w-3xl {
                 max-width: 100% !important;
-            }
-
-            /* Убрать скрытие на мобилке для меню */
-            .hidden.md\:flex {
-                display: flex !important;
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            /* Телефон в шапке */
-            .hidden.lg\:block {
-                display: none !important;
-            }
-
-            /* Адаптивные сетки для категорий */
-            .grid.lg\:grid-cols-3 {
-                grid-template-columns: 1fr !important;
             }
 
             /* Спейсинг */
-            .gap-xl {
-                gap: 24px !important;
+            .gap-xl { gap: 20px !important; }
+            .gap-lg { gap: 14px !important; }
+
+            .mb-xl, .my-xl { margin-bottom: 24px !important; margin-top: 24px !important; }
+            .mb-lg, .my-lg { margin-bottom: 14px !important; }
+
+            .py-xl { padding-top: 24px !important; padding-bottom: 24px !important; }
+            .py-lg { padding-top: 14px !important; padding-bottom: 14px !important; }
+
+            /* Формы */
+            form {
+                grid-template-columns: 1fr !important;
+                padding: 0 !important;
             }
 
-            .gap-lg {
-                gap: 16px !important;
-            }
-
-            .mb-lg,
-            .my-lg {
-                margin-bottom: 16px !important;
-            }
-
-            .mb-md {
-                margin-bottom: 12px !important;
-            }
-
-            /* Формы (для contacts.html) */
-            form,
-            .glass-panel form {
-                padding: 16px !important;
-                max-width: 100% !important;
-            }
-
-            input,
-            textarea,
-            select {
+            input, textarea, select {
                 width: 100% !important;
+                max-width: 100% !important;
                 font-size: 16px !important;
-                padding: 10px 12px !important;
-                margin-bottom: 12px;
+                padding: 12px !important;
+                box-sizing: border-box !important;
             }
 
-            input::placeholder,
-            textarea::placeholder {
-                font-size: 14px !important;
+            form button[type="submit"] {
+                padding: 14px 8px !important;
+                font-size: 12px !important;
+                letter-spacing: 0.3px !important;
+                white-space: normal !important;
+                line-height: 1.3 !important;
             }
 
-            /* Предотвратить zoom на iOS при фокусе */
-            input[type="text"],
-            input[type="email"],
-            input[type="tel"],
-            input[type="number"],
-            textarea {
-                font-size: 16px !important;
+            /* Footer */
+            footer .grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
             }
 
-            /* Отступы у элементов списков */
-            .pt-lg {
-                padding-top: 16px !important;
-            }
-
-            .py-4 {
-                padding-top: 12px !important;
-                padding-bottom: 12px !important;
-            }
+            /* Карта */
+            #map-container { aspect-ratio: 1.2 / 1 !important; }
         }
+    
     </style>
 </head>
 <body class="dark selection:bg-primary selection:text-on-primary">
